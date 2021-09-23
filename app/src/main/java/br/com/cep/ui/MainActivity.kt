@@ -1,10 +1,12 @@
 package br.com.cep.ui
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import br.com.cep.core.extensions.createDialog
 import br.com.cep.core.extensions.toast
 import br.com.cep.databinding.ActivityMainBinding
 import kotlinx.coroutines.flow.collect
