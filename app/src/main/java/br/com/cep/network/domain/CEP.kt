@@ -4,7 +4,7 @@ data class CEP(
     val address: String,
     val address_name: String,
     val address_type: String,
-    val cep: String,
+    var cep: String,
     val city: String,
     val city_ibge: String,
     val ddd: String,

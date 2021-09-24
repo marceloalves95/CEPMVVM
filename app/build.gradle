@@ -52,6 +52,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
     //Koin
     implementation 'io.insert-koin:koin-android:3.1.1'
+    implementation 'androidx.test.ext:junit-ktx:1.1.3'
     testImplementation 'io.insert-koin:koin-test:3.1.1'
     //Mockk
     testImplementation "io.mockk:mockk:1.10.0"
@@ -59,5 +60,15 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    //Core library
+    androidTestImplementation 'androidx.test:core:1.4.0'
+    //AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    // Espresso dependencies
+    //androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    //androidTestImplementation "androidx.test.espresso:espresso-accessibility:3.4.0"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:3.4.0"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:3.4.0"
 }
