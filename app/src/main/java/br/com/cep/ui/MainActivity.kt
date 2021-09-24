@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import br.com.cep.core.extensions.toast
 import br.com.cep.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -38,38 +37,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun initViewModel(){
-        lifecycleScope.launchWhenStarted {
-            viewModel.state.observe(this@MainActivity,{ state->
-                with(state){
-                    when(this){
-                        is MainActivityViewModel.State.Error -> {
-                            toast(message, Toast.LENGTH_SHORT)
-                        }
-                        is MainActivityViewModel.State.Loading -> {
-                            with(binding){
-                                if (isLoading)
-                                    progressBar.visibility = View.VISIBLE
-                                else
-                                    progressBar.visibility = View.INVISIBLE
-                            }
-                        }
-                        is MainActivityViewModel.State.Sucess -> {
 
-                            response?.let { cep->
-                                with(binding){
-                                    group.visibility = View.VISIBLE
-                                    address.text = cep.address
-                                    district.text = cep.district
-                                    city.text = cep.city
-                                    this.state.text = cep.state
-                                }
-                            }
-
+        viewModel.state.observe(this,{ state->
+            with(state){
+                when(this){
+                    is MainActivityViewModel.State.Error -> {
+                        toast(message, Toast.LENGTH_SHORT)
+                    }
+                    is MainActivityViewModel.State.Loading -> {
+                        with(binding){
+                            if (isLoading)
+                                progressBar.visibility = View.VISIBLE
+                            else
+                                progressBar.visibility = View.INVISIBLE
                         }
                     }
-                }
+                    is MainActivityViewModel.State.Sucess -> {
 
-            })
-        }
+                        response?.let { cep->
+                            with(binding){
+                                group.visibility = View.VISIBLE
+                                address.text = cep.address
+                                district.text = cep.district
+                                city.text = cep.city
+                                this.state.text = cep.state
+                            }
+                        }
+
+                    }
+                }
+            }
+
+        })
     }
 }
