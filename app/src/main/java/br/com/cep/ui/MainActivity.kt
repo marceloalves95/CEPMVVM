@@ -1,15 +1,12 @@
 package br.com.cep.ui
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import br.com.cep.core.extensions.createDialog
 import br.com.cep.core.extensions.toast
 import br.com.cep.databinding.ActivityMainBinding
-import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initViews()
+
     }
 
     private fun initViews(){
@@ -33,35 +31,29 @@ class MainActivity : AppCompatActivity() {
             with(buscar){
                 setOnClickListener {
                     val cep = cep.editableText.toString()
-                    viewModel.getBuscarCEP(cep)
+                    viewModel.getBusca(cep)
                     initViewModel()
                 }
             }
         }
     }
-
     private fun initViewModel(){
-
         lifecycleScope.launchWhenStarted {
-            viewModel.state.collect { states->
-                with(states){
+            viewModel.state.observe(this@MainActivity,{ state->
+                with(state){
                     when(this){
-                        MainActivityViewModel.CepState.Empty -> {
-
-                        }
-                        is MainActivityViewModel.CepState.Error -> {
+                        is MainActivityViewModel.State.Error -> {
                             toast(message, Toast.LENGTH_SHORT)
                         }
-                        is MainActivityViewModel.CepState.Loading -> {
+                        is MainActivityViewModel.State.Loading -> {
                             with(binding){
                                 if (isLoading)
                                     progressBar.visibility = View.VISIBLE
                                 else
                                     progressBar.visibility = View.INVISIBLE
                             }
-
                         }
-                        is MainActivityViewModel.CepState.Sucess -> {
+                        is MainActivityViewModel.State.Sucess -> {
 
                             response?.let { cep->
                                 with(binding){
@@ -69,15 +61,15 @@ class MainActivity : AppCompatActivity() {
                                     address.text = cep.address
                                     district.text = cep.district
                                     city.text = cep.city
-                                    state.text = cep.state
+                                    this.state.text = cep.state
                                 }
                             }
+
                         }
                     }
                 }
 
-
-            }
+            })
         }
     }
 }

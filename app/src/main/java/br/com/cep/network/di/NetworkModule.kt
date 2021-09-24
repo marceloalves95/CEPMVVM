@@ -38,7 +38,7 @@ object NetworkModule {
             .build()
     }
 
-    fun getService(): ApiCEP {
+    private fun getService(): ApiCEP {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(criarHttpClient())
