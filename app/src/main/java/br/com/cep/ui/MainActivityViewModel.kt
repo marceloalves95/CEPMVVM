@@ -32,13 +32,13 @@ class MainActivityViewModel(private val repository: Repository):ViewModel() {
                     if (isSuccessful){
                         emit(CepState.Sucess(body()))
                     }else{
-                        val json = errorBody()?.string()
+                        val json = errorBody()?.charStream()
                         val errorResponse = Gson().fromJson(json, ErrorResponse::class.java)
                         emit(CepState.Error(errorResponse.message))
                     }
                 }
             }catch (exception: HttpException) {
-                val json = exception.response()?.errorBody()?.string()
+                val json = exception.response()?.errorBody()?.charStream()
                 val errorResponse = Gson().fromJson(json, ErrorResponse::class.java)
                 emit(CepState.Error(errorResponse.message))
             }
